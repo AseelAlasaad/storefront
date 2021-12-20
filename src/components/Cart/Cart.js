@@ -24,7 +24,7 @@ function Cart(props)
            
             <CardContent >
                 {item.name}
-            <Button onDelete={() => props.Delete(item)}> Delete</Button>
+            <Button onClick={() => props.Delete(item)}> Delete</Button>
                 <br>
                 </br>
             </CardContent>
