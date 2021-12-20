@@ -1,28 +1,12 @@
-// import { createStore, combineReducers } from "redux";
-// import {composeWithDevTools} from 'redux-devtools-extension';
-// import categoryReducer from './categories';
-// import productReducer from './products';
-
-
-// const reducers= combineReducers({
-//     categories: categoryReducer,
-//     products: productReducer
-// });
-
-// const store=()=>{
-//     return createStore(reducers,composeWithDevTools());
-// };
-
-// export default store();
-
 import { createStore, combineReducers } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import productsReducer from './products';
 import categoriesReducer from './categories';
-
+import cart from './cart';
 const reducers = combineReducers({
     categories: categoriesReducer,
-    products: productsReducer
+    products: productsReducer,
+    cart:cart
 });
 const store = () => {
     return createStore(reducers, composeWithDevTools());
