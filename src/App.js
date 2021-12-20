@@ -2,22 +2,28 @@ import React from "react";
 import Header from './components/Header/Header'
 import Categories from "./components/Categories/Categories";
 import Products from "./components/Products/Products";
-import { Provider } from 'react-redux';
-import store from './store';
-import Footer from './components/Footer/Footer'
-export default class App extends React.Component{
+import Footer from './components/Footer/Footer';
+import Cart from './components/Cart/Cart';
+import {If} from 'react-if';
+import { useSelector } from 'react-redux';
 
-    render(){
+export default function  App(props){
+    const state = useSelector((state) => state);
+
+    
         return(
             <>           
-            <Provider store={store}>
+           
             <Header/>
             <Categories/>
             <Products/>
+            <If  condition={state.cart.count>0}>
+            <Cart/>
+            </If>
             <Footer/>
-            </Provider>
+          
             </>
             
         )
-    }
+   
 }

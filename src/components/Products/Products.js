@@ -5,7 +5,7 @@ import Card from '@material-ui/core/Card';
 import { Button } from '@material-ui/core';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import { activeCategory } from '../../store/Active';
+import {Decrease, ADD} from  '../../store/Active';
 function Products(props) {
 
 
@@ -36,7 +36,7 @@ function Products(props) {
                   width: '18rem',
                   height: '400px',
                   marginTop: '5px',
-                  // marginLeft: '90%',
+                  marginLeft: '80px',
                   marginBottom: '200px',
                   border: '1px solid gray',
                 }}
@@ -57,13 +57,22 @@ function Products(props) {
                 <CardContent >
                   Price : {product.price}
                   <br></br>
-                  Votes : {product.votes}
+                  Product Item  : {product.count}
                 </CardContent>
 
                 <section className='btnn'>
                   <Button key={product.name}
                   variant='light' style={{ border: '1px solid gray' }} 
-                   onClick={() => props.activeCategory(product.name)}>
+                   onClick={() => {
+                     if(product.count)
+                     {
+                       props.ADD(product)
+                       props.Decrease(product)
+
+                     }
+                     else alert("OUT OF STOCK")
+
+                  }}>
                     ADD TO CART
                   </Button>
                   <Button variant='light' style={{ border: '1px solid gray' }}>
@@ -88,6 +97,6 @@ const mapStateToProps = (state) => {
   return { active: state.categories.active, products: state.products.products };
 
 }
-const mapDispatchToProps = { activeCategory };
+const mapDispatchToProps = { Decrease, ADD };
 
 export default connect(mapStateToProps,mapDispatchToProps)(Products);
