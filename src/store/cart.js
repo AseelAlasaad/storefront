@@ -9,14 +9,14 @@ const cart=(state=initialState,action)=>
     switch (type) {
         case 'ADD':
             const product=state.cart.map(product=>product.name)
-            console.log("CART",state.cart);
+            // console.log("CART",state.cart);
             
             if(!product.includes(payload.name))
             {
+                
                 let count=state.count+1;
                    console.log("CART",state.cart);
                 return {cart:[...state.cart,payload], count:count}
-
             }
             return {cart:state.cart, count:state.count};
 

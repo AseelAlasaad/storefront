@@ -41,7 +41,7 @@ const productsReducer = (state = initialState, action) => {
         case 'ACTIVE':
             const product = state.products.filter(product => product.category === payload);
 
-            return { ...state, product: product};
+            return {...state, product: product};
 
 
         case 'decrease':
