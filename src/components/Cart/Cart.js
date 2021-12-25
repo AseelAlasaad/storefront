@@ -1,9 +1,10 @@
 import React from 'react';
-import {Delete} from '../../store/Active';
+import {ADD} from '../../store/Action';
 import { connect } from 'react-redux';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { Button } from '@material-ui/core';
+// import {useSelctor} from 'react'
 
 function Cart(props)
 {
@@ -23,8 +24,8 @@ function Cart(props)
            return (
            
             <CardContent >
-                {item.name}
-            <Button onClick={() => props.Delete(item)}> Delete</Button>
+                {item}
+            {/* <Button > Delete</Button> */}
                 <br>
                 </br>
             </CardContent>
@@ -42,9 +43,9 @@ function Cart(props)
 
 const mapStateToProps = (state) => {
  
-    return { cart: state.cart.cart};
+    return { cart: state.cart.cart, count:state.count};
   
   }
-  const mapDispatchToProps = {Delete};
+  const mapDispatchToProps = {ADD};
   
   export default connect(mapStateToProps,mapDispatchToProps)(Cart);

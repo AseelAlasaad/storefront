@@ -1,18 +1,39 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
+import { connect, useDispatch, useSelector  } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
-import { Button } from '@material-ui/core';
+import { Button,Typography } from '@material-ui/core';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import {Decrease, ADD} from  '../../store/Active';
+import {Get,updateInStock,ADD,LoadingData} from  '../../store/Action';
+import LoadProducts from './LoadProducts';
 function Products(props) {
+  const {products}= useSelector(state=>state.products);
+
+
+  console.log('props.products',products)
+  const state = useSelector((state) => state);
+  console.log('showLoading',state.showLoading);
+  const dispatch=useDispatch();
+
+  useEffect(()=>{
+    dispatch(Get())
+  },[])
+  function decrement(id,payload) {
+    dispatch(updateInStock(id,payload));
+  }
+  function addTocart(payload) {
+    dispatch(ADD(payload));
+  }
 
 
 
+  
   return (
     <div>
-      <p style={{ marginLeft: '46%', fontSize: '25px' }}>{props.active}</p>
+      {props.showLoading && <LoadProducts/> }
+      {/* <p style={{ marginLeft: '46%', fontSize: '25px' }}>{state.categories.active.toUpperCase()|| 'ALL PRODUCTS'}</p> */}
+      <Typography style={{ marginLeft: '46%', fontSize: '25px' }} className="page-header"variant="h3" gutterBottom>{state.categories.active.toUpperCase() || 'ALL PRODUCTS'}</Typography>
       <Grid
         item
         sm={5}
@@ -22,13 +43,11 @@ function Products(props) {
           gridTemplateColumns: 'auto auto auto',
         }}
       >
-        {props.products.map(product => {
-          console.log('product.name', product);
-          if (props.active === product.category) {
-            console.log('product', product.category);
-
-
-
+     
+      
+        {products.map((product,idx) => {
+            {console.log('props.products',product)}     
+          if(state.categories.active  !== '' && product.category !==state.categories.active ) return;
             return (
               <Card
                 style={{
@@ -43,10 +62,10 @@ function Products(props) {
                 className={`cards ${product.name}`}
                 key={product.name}
               >
-                <CardMedia className={'img'} image={product.img} />
+                <CardMedia className={'img'} image={product.url} />
                 <img
                   alt={product.name}
-                  src={product.image}
+                  src={product.url}
                   width='120'
                   height='100'
                   style={{ marginLeft: '80px', marginTop: '10px' }}
@@ -57,18 +76,18 @@ function Products(props) {
                 <CardContent >
                   Price : {product.price}
                   <br></br>
-                  Product Item  : {product.count}
+                  inStock  : {product.inStock}
                 </CardContent>
 
-                <section className='btnn'>
+                 <section className='btnn'>
                   <Button key={product.name}
                   variant='light' style={{ border: '1px solid gray' }} 
                    onClick={() => {
-                     if(product.count)
+                     if(product.inStock)
                      {
-                       props.ADD(product)
-                       props.Decrease(product)
-
+                        decrement(product._id,product)
+                        addTocart(product.name)
+          
                      }
                      else alert("OUT OF STOCK")
 
@@ -78,25 +97,24 @@ function Products(props) {
                   <Button variant='light' style={{ border: '1px solid gray' }}>
                     VIEW DETAILS
                   </Button>
-                </section>
+                </section> 
               </Card>
             );
-          } else {
-            return '';
-          }
-        })}
+          
+        }
+        )}
       </Grid>
     </div >
 
 
   );
 }
-
 const mapStateToProps = (state) => {
- 
-  return { active: state.categories.active, products: state.products.products };
+    
+  return { showLoading: state.products.showLoading};
 
 }
-const mapDispatchToProps = { Decrease, ADD };
+const mapDispatchToProps = { LoadingData };
 
-export default connect(mapStateToProps,mapDispatchToProps)(Products);
+export default connect(mapStateToProps, mapDispatchToProps)(Products);
+// export default Products;
