@@ -2,19 +2,24 @@
 const initialState = {
     categories: [
         {
-            name: 'Food',
-            displayName: 'Food',
+            name: 'food',
+            displayName: 'food',
             description: 'categories Description Goes Here ',
-            url: 'https://purewows3.imgix.net/images/articles/2020_12/LittleBeetTable_healthy-restaurants-nyc.jpg?auto=format,compress&cs=strip'
         },
         {
-            name: 'Electronics',
-            displayName: 'Electronics',
+            name: 'electronics',
+            displayName: 'electronics',
             description: 'categories Description Goes Here',
-            url: 'https://files.shoppersdrugmart.ca/food-and-electronics/electronics/Hero%20Electronics.png'
+        }
+        ,
+        {
+            name: 'clothing',
+            displayName: 'clothing',
+            description: 'categories Description Goes Here',
         }
     ],
-    active: '',
+    active:''
+  
 }
 
 const categoriesReducer = (state = initialState, action) => {
@@ -24,8 +29,7 @@ const categoriesReducer = (state = initialState, action) => {
         case 'ACTIVE':
             const categories = state.categories;
             const active = payload;
-            return { categories, active };
-
+            return {categories,active};
         default:
             return state;
     }
